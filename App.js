@@ -1,35 +1,27 @@
+import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, Image } from 'react-native';
 
 export default function App() {
-  const [nbr1, setNbr1] = useState('');
-  const [nbr2, setNbr2] = useState('');
-  const [somme, setSomme] = useState(0);
+  const [dates, setDate] = useState([]);
 
-  const calculerSomme = () => {
-    const result = parseFloat(nbr1) + parseFloat(nbr2);
-    if (!isNaN(result)) setSomme(result);
-    else setSomme(0);
+  const handleDates = () => {
+    const d = new Date();
+    setDate([...dates, d.toString()]);
+  };
+
+  const handleInit = () => {
+    setDate([]);
   };
 
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="First Number"
-        keyboardType="numeric"
-        style={styles.input}
-        onChangeText={setNbr1}
-      />
-      <TextInput
-        placeholder="Second Number"
-        keyboardType="numeric"
-        style={styles.input}
-        onChangeText={setNbr2}
-      />
-      <Button title="Addition" onPress={calculerSomme} />
-      <Text style={styles.result}>Result : {somme}</Text>
-      <StatusBar style="auto" />
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        <Button title="Ajouter un LOG" onPress={handleDates} />
+        <Button title="Réinitialiser" onPress={handleInit} />
+      </View>
+      {dates.map((arg, i) => <Text key={i}>{i + 1} - {arg}</Text>)}
     </View>
   );
 }
@@ -37,19 +29,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    gap: 10,
+    backgroundColor: '#fff',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  input: {
-    borderWidth: 1,
-    width: 200,
-    marginBottom: 10,
-    padding: 8,
-    borderRadius: 5,
-  },
-  result: {
-    fontSize: 18,
-    marginTop: 10,
+    justifyContent: 'center',
   },
 });
